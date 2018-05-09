@@ -12,6 +12,7 @@ Aws.config.update({
 
 s3 = Aws::S3::Resource.new(region:'us-east-1')
 client = Aws::Rekognition::Client.new(region: 'us-east-1')
+
 bucket_name = 'your-bucket-name'
 the_bucket = s3.bucket(bucket_name)
 
@@ -23,29 +24,31 @@ end
 
 post '/upload' do
 
-	@image = params[:file][:tempfile]	
+	image = params[:file][:tempfile]	
 	@filename = params[:file][:filename]
-	@route = "Directory/#{@filename}"
+	@get_image = "http://#{bucket_name}.s3.amazonaws.com/#{@filename}"
 
-	obj = the_bucket.object(@route)
-	obj.upload_file(@image)
-	obj.get(response_target: "public/images/#{@filename}")
+	obj = the_bucket.object(@filename)
+	obj.upload_file(image,acl:'public-read')
 
 	erb :upload
 end
 
 post '/compare_faces' do
+	@get_image = params[:get_image]
 	fileroute = params[:filename]
 
-	lista = []
-	the_bucket.objects(prefix: 'Directory/').each do |item|
-	  lista << item.key
-	end
-	lista.delete_at(0)
+	@matchFaces = []
+	list = []
 
-	lista.each do |image|
+	the_bucket.objects(prefix: 'Directory/').each do |item|
+	  list << item.key
+	end
+	list.delete_at(0)
+
+	list.each do |image|
 			resp = client.compare_faces({
-			  similarity_threshold: 90, 
+			  similarity_threshold: 75, 
 			  source_image: {
 			    s3_object: {
 			      bucket: "#{bucket_name}", 
@@ -60,11 +63,10 @@ post '/compare_faces' do
 			  }, 
 			})
 
-			if resp.face_matches.count >= 1
-				p "Match"
-			else
-				p "UnMatch"
+			if resp.face_matches.count > 0
+				@matchFaces << image
 			end
 	end
 
+	erb :compare_faces
 end
