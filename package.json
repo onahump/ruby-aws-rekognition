@@ -1,0 +1,12 @@
+{
+  "name": "RubyRekognition",
+  "version": "1.0.0",
+  "description": "My first project with yarn",
+  "main": "index.js",
+  "repository": "git@github.com:onahump/ruby-aws-rekognition.git",
+  "author": "Oswaldo Nahum Ponce Arriaga <oswaldo@makingdevs.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.1.1"
+  }
+}
