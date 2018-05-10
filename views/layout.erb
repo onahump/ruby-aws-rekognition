@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Making Rekognition</title>
-</head>
-<body>
+<html lang="en">
+	<head>
+	  <meta charset="utf-8" />
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	  <meta name="@onahump" content="IENPOP" />
+	  <title> Making Rekognition </title>
+	  <link rel="stylesheet" type="text/css" href="<%= url('third-party/bootstrap/dist/css/bootstrap.css') %>">
+	  <link rel="stylesheet" type="text/css" href="<%= url('css/index.css') %>">
+	  <link rel="shortcut icon" href="<%= url('/images/favicon.ico') %>">
+	</head>
 
-</body>
+	<body>
+		<main>
+			<%= yield %>
+		</main>
+		<script type="text/javascript" src="<%= url('third-party/bootstrap/dist/js/bootstrap.min.js') %>"></script>
+	</body>
 </html>
