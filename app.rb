@@ -24,7 +24,7 @@ end
 
 post '/upload' do
 
-	image = params[:file][:tempfile]	
+	image = params[:file][:tempfile]
 	@filename = params[:file][:filename]
 	@get_image = "http://#{bucket_name}.s3.amazonaws.com/#{@filename}"
 
@@ -48,19 +48,19 @@ post '/compare_faces' do
 
 	list.each do |image|
 			resp = client.compare_faces({
-			  similarity_threshold: 75, 
+			  similarity_threshold: 60,
 			  source_image: {
 			    s3_object: {
-			      bucket: "#{bucket_name}", 
-			      name: "#{fileroute}", 
-			    }, 
-			  }, 
+			      bucket: "#{bucket_name}",
+			      name: "#{fileroute}",
+			    },
+			  },
 			  target_image: {
 			    s3_object: {
-		 		  bucket: "#{bucket_name}", 
+		 		  bucket: "#{bucket_name}",
 			      name: "#{image}"
-			    }, 
-			  }, 
+			    },
+			  },
 			})
 
 			if resp.face_matches.count > 0
