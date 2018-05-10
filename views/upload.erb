@@ -1,21 +1,14 @@
-<html>
-<head>
-	<title>Rekognition app</title>
-</head>
-<body>
-	<div>
-		<h1>Your photo</h1>
+<div>
+	<h1>Your photo</h1>
 
-		<img width="400px" src="<%= @get_image %>">		
-			<form action="/compare_faces" method="POST" >
-				
-				<label for="file">Compare your photo with our faces:</label>
-				<input type="hidden" name="filename" id="filename" value="<%= @filename%>">
-				<input type="hidden" name="get_image" id="get_image" value="<%= @get_image %>">
-				<p>
-					<button>Compare</button>
-				</p>
-			</form>
-	</div>
-</body>
-</html>
+	<img width="400px" src="<%= @get_image %>">		
+		<form action="/compare_faces" method="POST" >
+			
+			<label for="file">Compare your photo with our faces:</label>
+			<input type="hidden" name="filename" id="filename" value="<%= @filename%>">
+			<input type="hidden" name="get_image" id="get_image" value="<%= @get_image %>">
+			<p>
+				<button>Compare</button>
+			</p>
+		</form>
+</div>

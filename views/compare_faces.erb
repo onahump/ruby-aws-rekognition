@@ -1,15 +1,8 @@
-<html>
-<head>
-	<title>Rekognition app</title>
-</head>
-<body>
-	<div>
-		<h1>Hi baby</h1>
-		<img width= "300px" src="<%= @get_image %>">
+<div>
+	<h1>Hi baby</h1>
+	<img width= "300px" src="<%= @get_image %>">
 
-		<% @matchFaces.each do |image| %>	
-			<img width= "300px" src="http://training.makingdevs.com.s3.amazonaws.com/<%= image %>">
-		<% end %>
-	</div>
-</body>
-</html>
+	<% @matchFaces.each do |image| %>	
+		<img width= "300px" src="http://training.makingdevs.com.s3.amazonaws.com/<%= image %>">
+	<% end %>
+</div>

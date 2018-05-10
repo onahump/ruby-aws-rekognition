@@ -1,19 +1,12 @@
-<html>
-<head>
-	<title>Rekognition app</title>
-</head>
-<body>
-	<div>
-		<h1><%=@hello%></h1>
-		<img width="400px" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">		
-			<form action="/upload" method="POST" enctype="multipart/form-data">
-				
-				<label for="file">Upload a photo:</label>
-				<input type="file" name="file" id="file" required>
-				<p>
-					<button>Push me</button>
-				</p>
-			</form>
-	</div>
-</body>
-</html>
+<div>
+	<h1><%=@hello%></h1>
+	<img width="400px" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">		
+		<form action="/upload" method="POST" enctype="multipart/form-data">
+			
+			<label for="file">Upload a photo:</label>
+			<input type="file" name="file" id="file" required>
+			<p>
+				<button>Push me</button>
+			</p>
+		</form>
+</div>
