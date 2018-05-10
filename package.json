@@ -7,6 +7,8 @@
   "author": "Oswaldo Nahum Ponce Arriaga <oswaldo@makingdevs.com>",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "^4.1.1"
+    "bootstrap": "^4.1.1",
+    "html5shiv": "^3.7.3",
+    "respond.min.js": "^1.4.2"
   }
 }
