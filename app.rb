@@ -30,6 +30,13 @@ get	'/' do
 		client.create_collection({collection_id:face_collection})
 	end
 
+	list =[] 
+
+	the_bucket.objects(prefix: 'Directory/').each do |item|
+	  	list << item.key
+	end
+	list.delete_at(0)
+
 	erb :index
 end
 
