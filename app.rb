@@ -37,6 +37,14 @@ get	'/' do
 	end
 	list.delete_at(0)
 
+	names = []
+
+	list.each do |letter|
+		letter = letter.sub(/(Directory\W)/,'')
+		letter =letter.sub(/(\Wjpg|\Wjpeg|\Wpng)/,'')
+		names << letter
+	end	
+
 	erb :index
 end
 
