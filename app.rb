@@ -60,6 +60,8 @@ get	'/' do
 	    })
 	end
 
+	p client.list_faces({ collection_id: face_collection, max_results: 20, })
+
 	erb :index
 end
 
