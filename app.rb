@@ -45,6 +45,21 @@ get	'/' do
 		names << letter
 	end	
 
+	list.zip(names).each do |list,names|
+		client.index_faces({
+	      collection_id: face_collection,
+	      detection_attributes: [
+	      ],
+	      external_image_id: names,
+	      image: {
+	        s3_object: {
+	          bucket: bucket_name,
+	          name: list,
+	        },
+	      },
+	    })
+	end
+
 	erb :index
 end
 
