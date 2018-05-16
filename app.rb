@@ -30,38 +30,41 @@ get	'/' do
 		client.create_collection({collection_id:face_collection})
 	end
 
-	list =[] 
-
-	the_bucket.objects(prefix: 'Directory/').each do |item|
-	  	list << item.key
-	end
-	list.delete_at(0)
-
+	list =[]
 	names = []
 
-	list.each do |letter|
-		letter = letter.sub(/(Directory\W)/,'')
-		letter =letter.sub(/(\Wjpg|\Wjpeg|\Wpng)/,'')
-		names << letter
-	end	
+	if client.list_faces({ collection_id: face_collection, max_results: 20, }).faces.size == 0
+		the_bucket.objects(prefix: 'Directory/').each do |item|
+		  	list << item.key
+		end
+		list.delete_at(0)
 
-	list.zip(names).each do |list,names|
-		client.index_faces({
-	      collection_id: face_collection,
-	      detection_attributes: [
-	      ],
-	      external_image_id: names,
-	      image: {
-	        s3_object: {
-	          bucket: bucket_name,
-	          name: list,
-	        },
-	      },
-	    })
+		list.each do |letter|
+			letter = letter.sub(/(Directory\W)/,'')
+			letter =letter.sub(/(\Wjpg|\Wjpeg|\Wpng)/,'')
+			names << letter
+		end	
+
+		list.zip(names).each do |list,names|
+			client.index_faces({
+		      collection_id: face_collection,
+		      detection_attributes: [
+		      ],
+		      external_image_id: names,
+		      image: {
+		        s3_object: {
+		          bucket: bucket_name,
+		          name: list,
+		        },
+		      },
+		    })
+		end
+	else
+		p "Already exist faces"
 	end
 
-	p client.list_faces({ collection_id: face_collection, max_results: 20, })
-
+	p client.list_faces({ collection_id: face_collection, max_results: 20, }).faces.size
+	
 	erb :index
 end
 
@@ -79,35 +82,7 @@ end
 
 post '/compare_faces' do
 	@get_image = params[:get_image]
-	fileroute = params[:filename]
-
-	@matchFaces = []
-	list = []
-
-	the_bucket.objects(prefix: 'Directory/').each do |item|
-	  list << item.key
-	end
-	list.delete_at(0)
-	list.each do |image|
-        resp = client.compare_faces({
-          similarity_threshold: 60,
-          source_image: {
-            s3_object: {
-              bucket: "#{bucket_name}",
-              name: "#{fileroute}",
-            },
-          },
-          target_image: {
-            s3_object: {
-                  bucket: "#{bucket_name}",
-              name: "#{image}"
-            },
-          },
-        })
-        if resp.face_matches.count > 0
-                @matchFaces << image
-        end
-	end
+	fileroute = params[:filename] 
 
 	erb :compare_faces
 end
