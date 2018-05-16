@@ -84,5 +84,46 @@ post '/compare_faces' do
 	@get_image = params[:get_image]
 	fileroute = params[:filename] 
 
+	@matchFaces = []
+	
+	directory = []	
+	the_bucket.objects(prefix: 'Directory/').each do |item|
+		  	directory << item.key
+		end
+	directory.delete_at(0)
+	
+
+	resp = client.search_faces_by_image({
+	  collection_id: face_collection, 
+	  face_match_threshold: 95, 
+	  image: {
+	    s3_object: {
+	      bucket: bucket_name, 
+	      name: fileroute, 
+	    }, 
+	  }, 
+	  max_faces: 5, 
+	})
+
+	match = resp.face_matches
+	names_match = []
+	
+	if match.size >= 1
+		match.each do |image|
+			names_match << image.face.external_image_id
+		end
+	end
+
+	directory.each do |dir|
+		aux = dir.clone
+		aux = aux.sub!(/(Directory\W)/,"")
+		aux = aux.sub!(/(\Wjpg|\Wjpeg|\Wpng)/,"")
+		names_match.each do |name|
+			if aux == name
+				@matchFaces << dir
+			end
+		end
+	end
+
 	erb :compare_faces
 end
